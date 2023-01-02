@@ -1,0 +1,34 @@
+{% load static i18n thumbnail %}
+<div class="event item">
+	{% if event.picture %}
+	<a class="ui large image djangocms-event-modal-trigger" href="#"
+	   hx-get="{% url 'djangocms_events:event_detail' pk=event.pk %}"
+	   hx-target="#djangocms-event-detail">
+		<img alt="{% trans 'event' %}"
+		     class="event-picture"
+		     src="{{ event.picture|thumbnail_url:'event-list' }}"
+		/>
+	</a>
+	{% else %}
+	<a class="ui large image event-picture djangocms-event-modal-trigger"
+	   hx-get="{% url 'djangocms_events:event_detail' pk=event.pk %}"
+	   hx-target="#djangocms-event-detail"
+	   style="text-align: center;"
+	>
+		<i class="ui huge grey calendar alternate outline icon"></i>
+	</a>
+	{% endif %}
+	<div class="content">
+		<a class="header djangocms-event-modal-trigger" href="#"
+		   hx-get="{% url 'djangocms_events:event_detail' pk=event.pk %}"
+		   hx-target="#djangocms-event-detail">
+			{{ event.name }}
+		</a>
+		<div class="meta">
+			{{ event.calendar.name }}
+		</div>
+		<div class="content">
+			{% include "./date_time.html" %}
+		</div>
+	</div>
+</div>

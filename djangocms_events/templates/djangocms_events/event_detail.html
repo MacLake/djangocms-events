@@ -1,0 +1,35 @@
+{% load i18n thumbnail %}
+<i class="close icon"></i>
+<div class="header">
+	<i class="calendar alternate outline icon"></i>
+	{{ event.name }}
+</div>
+
+<div class="image content">
+	{% if event.picture %}
+	<img class="image" alt="{% trans 'event' %}"
+	     src="{{ event.picture|thumbnail_url:'event-detail' }}"
+	/>
+	{% endif %}
+	<div class="description" style="flex: initial;"> {# avoid long lines #}
+		<p>{{ event.calendar }}</p>
+		<p>
+			{% include "./include/date_time.html" %}
+			{% if event.location %}{{ event.location }}<br>{% endif %}
+			{% if event.organizer %}{% translate "Organiser:" %}
+			{{ event.organizer|default:'–' }}<br>{% endif %}
+			{% comment %}
+			{% if event.status %}{% translate "Status:" %} {{ event.status|lower|default:'–' }}<br>
+			{% endif %}
+			{% endcomment %}
+			{% if event.classification %}{% translate "Classification:" %}
+			{{ event.classification|default:'–'}}<br>{% endif %}
+			{% if event.url %}{% translate "Website:" %} {{ event.url|default:'–'|urlize }}<br>
+			{% endif %}
+		</p>
+		
+		<p>
+			{{ event.description.html|safe }}
+		</p>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if event.transparent %} {# Should be whole day event #}
+{{ event.begin|date:"D j M Y" }}{% if not event.one_day %} – {{ event.end|date:"D j M Y" }}{% endif %}
+<br>
+{% else %} {# Event with time #}
+{% if event.one_day %}
+{{ event.begin|date:"D j M Y G:i" }} – {{ event.end|date:"G:i" }}<br>
+{% else %}
+{{ event.begin|date:"D j M Y G:i" }} – {{ event.end|date:"D j M Y G:i" }}<br>
+{% endif %}
+{% endif %}
+

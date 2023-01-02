@@ -1,0 +1,32 @@
+{% extends CMS_TEMPLATE %}
+{% load i18n %}
+
+
+{% block content %}
+<h1>{% translate "Calendar" %}</h1>
+
+{{ calendars }}
+{% for calendar in calendars %}
+<table>
+	<tr>
+		<th>uid</th>
+		<th>begin</th>
+		<th>end</th>
+		<th>name</th>
+		<th>location</th>
+		<th>url</th>
+	</tr>
+	
+	{% for event in calendar.timeline %}
+	<tr>
+		<td>{{ event.uid }}</td>
+		<td>{{ event.begin }}</td>
+		<td>{{ event.end }}</td>
+		<td>{{ event.name }}</td>
+		<td>{{ event.location }}</td>
+		<td>{{ event.url }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endfor %}
+{% endblock content %}

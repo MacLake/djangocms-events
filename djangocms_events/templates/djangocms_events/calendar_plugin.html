@@ -1,0 +1,104 @@
+{% load static i18n thumbnail sekizai_tags %}
+
+{% addtoblock "js" %}
+<script src="{% static 'djangocms_events/webpack/calendar.bundle.js' %}"></script>
+{% endaddtoblock %}
+
+{% block content %}
+
+<h1 class="ui header">{% translate "Calendar" %} <span id="cal-date"></span></h1>
+
+<div>
+	<div class="ui primary icon buttons">
+		<button id="cal-prev-{{ instance.id }}" class="ui button"><i class="ui large arrow left icon"></i></button>
+		<button id="cal-today-{{ instance.id }}" class="ui button"><i class="ui large circle icon"></i></button>
+		<button id="cal-next-{{ instance.id }}" class="ui button"><i class="ui large arrow right icon"></i></button>
+	</div>
+	{% if show_month_week_day_control %}
+	<div class="ui primary buttons">
+		<button id="cal-day-{{ instance.id }}" class="ui button">{% translate "Day" %}</button>
+		<button id="cal-week-{{ instance.id }}" class="ui button">{% translate "Week" %}</button>
+		<button id="cal-month-{{ instance.id }}" class="ui button">{% translate "Month" %}</button>
+	</div>
+	{% endif %}
+</div>
+
+<div id="calendar-{{ instance.id }}" style="height: {{ instance.height }}px;"></div>
+
+
+{% addtoblock "js" %}
+<script defer>
+    const calendar = new Calendar('#calendar-{{ instance.id }}', {
+        usageStatistics: false, {# Google Analytics by Toast UI #}
+        defaultView: '{{ instance.default_view }}',
+        useDetailPopup: true,
+        isReadOnly: true,
+        week: {
+            startDayOfWeek: 1,
+        },
+        month: {
+            startDayOfWeek: 1,
+            workweek: false,
+        },
+        calendars: [
+            {% for calendar in calendars %}
+            {
+                id: `{{ calendar.slug }}`,
+                name: `{{ calendar.name }}`,
+                backgroundColor: `{{ calendar.colour }}`,
+            },
+            {% endfor %}
+        ],
+    })
+    showDate()
+    $("#cal-month").addClass("active")
+    
+    calendar.createEvents([
+        {% for event in event_list %}
+        {
+            id: `{{ event.id }}`,
+            calendarId: `{{ event.calendar.slug }}`,
+            title: `{{ event.name|safe }}`,
+	        body: `{{ event.description.html|safe }}`,
+            category: 'time',
+            dueDateClass: '',
+            start: `{{ event.begin|date:"c" }}`,
+            end: `{{ event.end|date:"c" }}` ,
+	        isAllday: {{ event.transparent|lower }},
+	        location: `{{ event.location }}`,
+	        isReadOnly: true,
+        },
+	    {% endfor %}
+    ])
+    $("#cal-prev-{{ instance.id }}").click(function () {
+        calendar.prev()
+        showDate()
+    })
+    $("#cal-today-{{ instance.id }}").click(function () {
+        calendar.today()
+        showDate()
+    })
+    $("#cal-next-{{ instance.id }}").click(function () {
+        calendar.next()
+        showDate()
+    })
+    $("#cal-day-{{ instance.id }}").click(function () {
+        calendar.changeView('day');
+    })
+    $("#cal-week-{{ instance.id }}").click(function () {
+        calendar.changeView('week');
+    })
+    $("#cal-month-{{ instance.id }}").click(function () {
+        calendar.changeView('month');
+    })
+    function showDate() {
+	    const options = { month: 'long', year: 'numeric'};
+        let date = calendar.getDate().toDate()
+	    let monthStr = new Intl.DateTimeFormat('en-GB', options).format(date)
+        $("#cal-date").text(monthStr)
+    }
+    
+</script>
+{% endaddtoblock "js" %}
+
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% load sekizai_tags %}
+{% addtoblock "js" %}
+<script defer>
+    const calendar = new Calendar('#calendar', {
+        usageStatistics: false, {# Google Analytics by Toast UI #}
+        defaultView: 'month',
+        useDetailPopup: true,
+        isReadOnly: true,
+        week: {
+            startDayOfWeek: 1,
+        },
+        month: {
+            startDayOfWeek: 1,
+            workweek: false,
+        },
+        calendars: [
+            {% for calendar in calendars %}
+            {
+                id: `{{ calendar.slug }}`,
+                name: `{{ calendar.name }}`,
+                backgroundColor: `{{ calendar.colour }}`,
+            },
+            {% endfor %}
+        ],
+    })
+    showDate()
+    $("#cal-month").addClass("active")
+    
+    calendar.createEvents([
+        {% for event in event_list_calendar %}
+        {
+            id: `{{ event.id }}`,
+            calendarId: `{{ event.calendar.slug }}`,
+            title: `{{ event.name|safe }}`,
+	        body: `{{ event.description.html|safe }}`,
+            category: 'time',
+            dueDateClass: '',
+            start: `{{ event.begin|date:"c" }}`,
+            end: `{{ event.end|date:"c" }}` ,
+	        isAllday: {{ event.transparent|lower }},
+	        location: `{{ event.location }}`,
+	        isReadOnly: true,
+        },
+	    {% endfor %}
+    ])
+    $("#cal-prev").click(function () {
+        calendar.prev()
+        showDate()
+    })
+    $("#cal-today").click(function () {
+        calendar.today()
+        showDate()
+    })
+    $("#cal-next").click(function () {
+        calendar.next()
+        showDate()
+    })
+    $("#cal-day").click(function () {
+        calendar.changeView('day');
+    })
+    $("#cal-week").click(function () {
+        calendar.changeView('week');
+    })
+    $("#cal-month").click(function () {
+        calendar.changeView('month');
+    })
+    function showDate() {
+	    const options = { month: 'long', year: 'numeric'};
+        let date = calendar.getDate().toDate()
+	    let monthStr = new Intl.DateTimeFormat('en-GB', options).format(date)
+        $("#cal-date").text(monthStr)
+    }
+</script>
+{% endaddtoblock "js" %}

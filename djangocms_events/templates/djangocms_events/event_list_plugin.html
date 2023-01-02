@@ -1,0 +1,13 @@
+{% load static i18n thumbnail sekizai_tags %}
+
+<h2 class="ui header">{% translate "Events" %}</h2>
+
+<div class="ui divided items">
+	{% for event in events %}
+	{% include "./include/event_item.html" %}
+	{% endfor %}
+</div>
+
+<div class="ui modal" id="djangocms-event-detail"></div>
+
+{% include "./include/event-list-js.html" %}

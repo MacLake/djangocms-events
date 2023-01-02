@@ -1,0 +1,12 @@
+{% load sekizai_tags %}
+{% addtoblock "js" %}
+<script defer>
+    // {# empty content after hiding, so it won’t show up on reusing the modal before new content is loadewd. #}
+    $(".djangocms-event-modal-trigger").click(function () {
+        $("#djangocms-event-detail").modal({
+            onHidden: $("#djangocms-event-detail").html('')
+        }).modal("show")
+    })
+    $('.ui.accordion').accordion()
+</script>
+{% endaddtoblock "js" %}
