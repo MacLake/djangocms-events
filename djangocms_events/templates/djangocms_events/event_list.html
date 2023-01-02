@@ -3,6 +3,10 @@
 
 {% block content %}
 {% addtoblock "js" %}
+<script src="{% static 'djangocms_events/webpack/index.bundle.js' %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
 <script src="{% static 'djangocms_events/webpack/calendar.bundle.js' %}"></script>
 {% endaddtoblock %}
 

@@ -1,5 +1,9 @@
 {% load static i18n thumbnail sekizai_tags %}
 
+{% addtoblock "js" %}
+<script src="{% static 'djangocms_events/webpack/index.bundle.js' %}"></script>
+{% endaddtoblock %}
+
 <h2 class="ui header">{% translate "Events" %}</h2>
 
 <div class="ui divided items">
