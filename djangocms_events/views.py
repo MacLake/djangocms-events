@@ -1,9 +1,6 @@
-import json
 from datetime import datetime, timezone, timedelta
 from typing import Any
 
-import ics
-import requests
 from arrow import Arrow
 from django.conf import settings
 from django.db.models import QuerySet
@@ -11,7 +8,6 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from ics import Calendar as ICSCalendar
-from ics.timeline import Timeline as ICSTimeline
 
 from .models import Event, Calendar
 
