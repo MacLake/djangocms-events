@@ -43,3 +43,10 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/MacLake/djangocms-events"
 repository = "https://github.com/MacLake/djangocms-events.git"
+
+[tool.yapf]
+based_on_style = "facebook"
+SPLIT_BEFORE_BITWISE_OPERATOR = true
+SPLIT_BEFORE_ARITHMETIC_OPERATOR = true
+SPLIT_BEFORE_LOGICAL_OPERATOR = true
+SPLIT_BEFORE_DOT = true
