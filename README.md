@@ -7,14 +7,18 @@ Events and calendar with ics import for django CMS
 Currently you can install this package with
 
 ```python
-pip install git+https://github.com/MacLake/djangocms-events.git
+pip
+install
+git + https: // github.com / MacLake / djangocms - events.git
 ```
+
 or add
+
 ```
 djangocms-events @ git+https://github.com/MacLake/djangocms-events.git
 ```
-to your requirements. A pip package will be available soon. 
 
+to your requirements. A pip package will be available soon.
 
 ### Python packages
 
@@ -63,7 +67,7 @@ The following settings are optional:
 DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL: bool = False
 DJANGOCMS_EVENTS_PAGINATE_BY: int = 100
 DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN: int = 5
-
+DJANGOCMS_EVENTS_CORNER_LABELS: bool = True
 ```
 
 With `DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL` you can choose if the control for
@@ -71,7 +75,9 @@ switching between month, week and day view in the calendar is shwon or hidden. I
 will be shown. `DJANGOCMS_EVENTS_PAGINATE_BY` sets the number of events per page in the events list
 and defaults to 100. With setting `DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN` to a number that is smaller
 than the number of events per page, only this number of events will be shown on the overview, the
-rest will be hidden in an accordion, otherwise no events will be hidden.
+rest will be hidden in an accordion, otherwise no events will be hidden. With
+`DJANGOCMS_EVENTS_CORNER_LABELS: bool = True` corner labels in pictures of calendar lists (app hook
+or plug-in) indicate the corresponding calendar by its colour.
 
 ### JavaScript frontend libraries
 
@@ -97,12 +103,13 @@ The second bundle `djangocms_events/static/djangocms_events/webpack/calendar.bun
 the calendar view in the apphook page and the calendar plug-in.
 
 ## Usage
+
 After installing and configuring the package you can integrate it in django CMS as a webhook page in
 the advanced settings of a CMS page.
 
 You can edit events in the Django admin or import an ICS file. In either case first create a
 calendar in the admin. If you want to import an ICS file available in the Internet, enter its URL,
-otherwise leave this field empty. You can import events after having checked the “publish” field in 
+otherwise leave this field empty. You can import events after having checked the “publish” field in
 the calendar by applying an admin action or by calling a URL for importing the events e.g. in a
 cron job. The URL for importing all events of all published calendars is the URL of your apphook
 page plus `import_calendars` or `import_calendars_future_events` for just importing events in the
@@ -117,7 +124,6 @@ In addition, there are plug-ins for event lists and calendar views. You can choo
 i.e. groups of events will be shown. In the event list plug-in you can choose how many events
 are being shown, and if there are not enough future events, you can choose to fill up the list with
 recent events, so the list won’t look too empty in that case.
-
 
 ## Integrated libraries
 

@@ -4,6 +4,7 @@ from typing import Any, Iterable
 from cms.models import CMSPlugin
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
+from django.conf import settings
 from django.db.models import QuerySet
 from django.utils.translation import gettext as _
 
@@ -29,10 +30,15 @@ class EventListPluginPublisher(CMSPluginBase):
             events = reversed(
                 Event.objects.order_by('-begin')[:instance.number]
             )
+        corner_labels: bool = settings.DJANGOCMS_EVENTS_CORNER_LABELS if hasattr(
+            settings, 'DJANGOCMS_EVENTS_CORNER_LABELS'
+        ) else False
+        
         context: dict[str,
                       Any] = super(EventListPluginPublisher,
                                    self).render(context, instance, placeholder)
         context['events'] = events
+        context['corner_labels'] = corner_labels
         return context
 
 

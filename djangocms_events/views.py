@@ -37,6 +37,9 @@ class EventListView(ListView):
     nr_initially_shown: int = settings.DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN if hasattr(
         settings, 'DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN'
     ) else paginate_by
+    corner_labels: bool = settings.DJANGOCMS_EVENTS_CORNER_LABELS if hasattr(
+        settings, 'DJANGOCMS_EVENTS_CORNER_LABELS'
+    ) else False
     queryset_calendar: QuerySet = Event.objects.all()
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -51,6 +54,7 @@ class EventListView(ListView):
         ) else True
         context['nr_initially_shown'] = self.nr_initially_shown
         context['slice_2'] = f'{self.nr_initially_shown}:'
+        context['corner_labels'] = self.corner_labels
         context['event_list_calendar'] = self.queryset_calendar
 
         return context
