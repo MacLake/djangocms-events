@@ -28,7 +28,9 @@ class EventListPluginPublisher(CMSPluginBase):
         ).order_by('begin')[:instance.number]
         if events.count() < instance.number and instance.also_past_events:
             events = reversed(
-                Event.objects.order_by('-begin')[:instance.number]
+                Event.objects.filter(
+                    calendar__in=instance.calendars.all()
+                ).order_by('-begin')[:instance.number]
             )
         corner_labels: bool = settings.DJANGOCMS_EVENTS_CORNER_LABELS if hasattr(
             settings, 'DJANGOCMS_EVENTS_CORNER_LABELS'
