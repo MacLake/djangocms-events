@@ -5,25 +5,27 @@
 	{{ event.name }}
 </div>
 
-<div class="image content">
-	{% if event.picture %}
-	<img class="image" alt="{% trans 'event' %}"
-	     src="{{ event.picture|thumbnail_url:'event-detail' }}"
-	/>
-	{% endif %}
+<div class="content">
 	<div class="description" style="flex: initial;"> {# avoid long lines #}
+		{% if event.picture %}
+			<img class="ui image" alt="{% trans 'event' %}"
+			     src="{{ event.picture|thumbnail_url:'event-detail' }}"
+			/>
+		{% endif %}
+
 		<p>{{ event.calendar }}</p>
 		<p>
 			{% include "./include/date_time.html" %}
 			{% if event.location %}{{ event.location }}<br>{% endif %}
 			{% if event.organizer %}{% translate "Organiser:" %}
-			{{ event.organizer|default:'–' }}<br>{% endif %}
+				{{ event.organizer|default:'–' }}<br>{% endif %}
 			{% comment %}
-			{% if event.status %}{% translate "Status:" %} {{ event.status|lower|default:'–' }}<br>
-			{% endif %}
+				{% if event.status %}{% translate "Status:" %} {{ event.status|lower|default:'–' }}
+					<br>
+				{% endif %}
 			{% endcomment %}
 			{% if event.classification %}{% translate "Classification:" %}
-			{{ event.classification|default:'–'}}<br>{% endif %}
+				{{ event.classification|default:'–'}}<br>{% endif %}
 			{% if event.url %}{% translate "Website:" %} {{ event.url|default:'–'|urlize }}<br>
 			{% endif %}
 		</p>
