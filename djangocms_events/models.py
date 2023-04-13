@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 import ics
 import requests
@@ -25,6 +26,13 @@ class Calendar(models.Model):
     ics = models.TextField(blank=True, verbose_name=_('imported ics file'))
     colour = models.CharField(
         blank=True, max_length=20, verbose_name=_('colour')
+    )
+    default_picture = FilerImageField(
+        null=True,
+        blank=True,
+        verbose_name=_('default picture'),
+        related_name='calendar_default_picture',
+        on_delete=models.CASCADE
     )
     publish = models.BooleanField(default=True, verbose_name=_('publish'))
 
@@ -136,8 +144,11 @@ class Event(models.Model):
         ordering: list[str] = ['-begin', '-end']
 
     @property
-    def one_day(self):
+    def one_day(self) -> bool:
         return self.begin.date() == self.end.date()
+
+    def get_picture(self) -> Optional[FilerImageField]:
+        return self.picture or self.calendar.default_picture
 
 
 class EventCalendarPlugin(CMSPlugin):
@@ -146,7 +157,7 @@ class EventCalendarPlugin(CMSPlugin):
     class Meta:
         abstract: bool = True
 
-    def copy_relations(self, oldinstance):
+    def copy_relations(self, oldinstance) -> None:
         self.calendars.set(oldinstance.calendars.all())
 
 

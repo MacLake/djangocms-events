@@ -11,10 +11,10 @@
 			     style="border-color: {{ event.calendar.colour }};">
 			</div>
 		{% endif %}
-		{% if event.picture %}
+		{% if event.get_picture %}
 			<img alt="{% trans 'event' %}"
 			     class="event-picture"
-			     src="{{ event.picture|thumbnail_url:'event-list' }}"
+			     src="{{ event.get_picture|thumbnail_url:'event-list' }}"
 			/>
 		{% else %}
 			<i class="ui huge grey calendar alternate outline icon"></i>

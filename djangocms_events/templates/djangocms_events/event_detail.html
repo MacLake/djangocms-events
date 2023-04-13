@@ -7,9 +7,9 @@
 
 <div class="content">
 	<div class="description" style="flex: initial;"> {# avoid long lines #}
-		{% if event.picture %}
-			<img class="ui image" alt="{% trans 'event' %}"
-			     src="{{ event.picture|thumbnail_url:'event-detail' }}"
+		{% if event.get_picture %}
+			<img class="ui fluid image" alt="{% trans 'event' %}"
+			     src="{{ event.get_picture|thumbnail_url:'event-detail' }}"
 			/>
 		{% endif %}
 
