@@ -31,15 +31,9 @@ def import_calendars(
 class EventListView(ListView):
     """"Show a list of all events of published calendars"""
     model = Event
-    paginate_by: int = settings.DJANGOCMS_EVENTS_PAGINATE_BY if hasattr(
-        settings, 'DJANGOCMS_EVENTS_PAGINATE_BY'
-    ) else 100
-    nr_initially_shown: int = settings.DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN if hasattr(
-        settings, 'DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN'
-    ) else paginate_by
-    corner_labels: bool = settings.DJANGOCMS_EVENTS_CORNER_LABELS if hasattr(
-        settings, 'DJANGOCMS_EVENTS_CORNER_LABELS'
-    ) else False
+    paginate_by: int = getattr(settings, 'DJANGOCMS_EVENTS_PAGINATE_BY', 100)
+    nr_initially_shown: int = getattr(settings, 'DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN', paginate_by)
+    corner_labels: bool = getattr(settings, 'DJANGOCMS_EVENTS_CORNER_LABELS', False)
     queryset_calendar: QuerySet = Event.objects.all()
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -49,9 +43,7 @@ class EventListView(ListView):
         context['all_events'] = Event.objects.all()
         context[
             'show_month_week_day_control'
-        ] = settings.DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL if hasattr(
-            settings, 'DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL'
-        ) else True
+        ] = getattr(settings, 'DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL', True)
         context['nr_initially_shown'] = self.nr_initially_shown
         context['slice_2'] = f'{self.nr_initially_shown}:'
         context['corner_labels'] = self.corner_labels
