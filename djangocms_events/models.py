@@ -5,14 +5,59 @@ import ics
 import requests
 from arrow import Arrow
 from cms.models import CMSPlugin
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_quill.fields import QuillField
-from filer.fields.image import FilerImageField
+from filer.fields.image import (AdminImageFormField, AdminImageWidget,
+                                FilerImageField)
+from filer.models import File
 from ics import Calendar as ICSCalendar
 from ics.timeline import Timeline as ICSTimeline
+from image_cropping import ImageRatioField
 
 
+class CroppableImageWidget(AdminImageWidget):
+    def render(self, name, value, attrs=None):
+        if value:
+            file_obj = File.objects.get(pk=value)
+            attrs = attrs or {}
+            attrs.update(
+                {
+                    'class':
+                        'crop-thumb',
+                    'data-thumbnail-url':
+                        file_obj.thumbnails['admin_sidebar_preview'],
+                    'data-field-name':
+                        name,
+                    'data-org-width':
+                        file_obj.width,
+                    'data-org-height':
+                        file_obj.height,
+                }
+            )
+
+        return super().render(name, value, attrs)
+
+    class Media:
+        js = (
+            settings.STATIC_URL + 'filer/js/addons/popup_handling.js',
+            # getattr(
+            #     settings, 'JQUERY_URL',
+            #     'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+            # ),
+            "image_cropping/js/src/jquery.Jcrop.min.js",
+            "image_cropping/js/dist/image_cropping.min.js"
+        )
+        css = {'all': ("image_cropping/css/jquery.Jcrop.min.css", )}
+
+
+class CroppableFormField(AdminImageFormField):
+    widget = CroppableImageWidget
+
+
+class CroppableFilerImageField(FilerImageField):
+    default_form_class = CroppableFormField
 class Calendar(models.Model):
     slug = models.SlugField(unique=True, verbose_name=_('slug'))
     name = models.CharField(max_length=50, verbose_name=_('name'))
@@ -126,13 +171,14 @@ class Event(models.Model):
     classification = models.CharField(
         null=True, blank=True, max_length=64, verbose_name=_('classification')
     )
-    picture = FilerImageField(
+    picture = CroppableFilerImageField(
         null=True,
         blank=True,
         verbose_name=_('picture'),
         related_name='event_picture',
         on_delete=models.CASCADE
     )
+    cropping = ImageRatioField('picture', '852x426', free_crop=False)
 
     def __str__(self) -> str:
         return f'{self.begin} {self.name}'
