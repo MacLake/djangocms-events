@@ -7,9 +7,7 @@ Events and calendar with ics import for django CMS
 Currently you can install this package with
 
 ```python
-pip
-install
-git + https: // github.com / MacLake / djangocms - events.git
+pip install git+https://github.com/MacLake/djangocms-events.git
 ```
 
 or add
