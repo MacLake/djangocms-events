@@ -15,7 +15,7 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, './djangocms_events/static/djangocms_events/webpack'),
+        path: path.resolve(__dirname, './src/djangocms_events/static/djangocms_events/webpack'),
         clean: true,
     },
     mode: 'production',

@@ -1,5 +1,0 @@
-include LICENSE.txt
-include README.md
-recursive-include djangocms_events/static *
-recursive-include djangocms_events/templates *
-recursive-include djangocms_events/locale *
