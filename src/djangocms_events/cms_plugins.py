@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 
 from cms.models import CMSPlugin
 from cms.plugin_base import CMSPluginBase
@@ -28,17 +29,14 @@ class EventListPluginPublisher(CMSPluginBase):
         ).order_by('begin')[:instance.number]
         if events.count() < instance.number and instance.also_past_events:
             events = reversed(
-                Event.objects.filter(
-                    calendar__in=instance.calendars.all()
-                ).order_by('-begin')[:instance.number]
+                Event.objects.filter(calendar__in=instance.calendars.all()
+                                    ).order_by('-begin')[:instance.number]
             )
         corner_labels: bool = settings.DJANGOCMS_EVENTS_CORNER_LABELS if hasattr(
             settings, 'DJANGOCMS_EVENTS_CORNER_LABELS'
         ) else False
-        
-        context: dict[str,
-                      Any] = super(EventListPluginPublisher,
-                                   self).render(context, instance, placeholder)
+
+        context: dict[str, Any] = super().render(context, instance, placeholder)
         context['events'] = events
         context['corner_labels'] = corner_labels
         return context
@@ -55,9 +53,7 @@ class CalendarPluginPublisher(CMSPluginBase):
 
     def render(self, context, instance, placeholder) -> dict[str, Any]:
 
-        context: dict[str,
-                      Any] = super(CalendarPluginPublisher,
-                                   self).render(context, instance, placeholder)
+        context: dict[str, Any] = super().render(context, instance, placeholder)
 
         # We show also past events of the current month and up to 6 d before, which can be shown,
         # subtract a day to make

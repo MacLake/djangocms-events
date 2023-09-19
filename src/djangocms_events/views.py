@@ -32,8 +32,12 @@ class EventListView(ListView):
     """"Show a list of all events of published calendars"""
     model = Event
     paginate_by: int = getattr(settings, 'DJANGOCMS_EVENTS_PAGINATE_BY', 100)
-    nr_initially_shown: int = getattr(settings, 'DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN', paginate_by)
-    corner_labels: bool = getattr(settings, 'DJANGOCMS_EVENTS_CORNER_LABELS', False)
+    nr_initially_shown: int = getattr(
+        settings, 'DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN', paginate_by
+    )
+    corner_labels: bool = getattr(
+        settings, 'DJANGOCMS_EVENTS_CORNER_LABELS', False
+    )
     queryset_calendar: QuerySet = Event.objects.all()
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -41,9 +45,10 @@ class EventListView(ListView):
         context['set'] = 'all'
         context['calendars'] = Calendar.objects.filter(publish=True)
         context['all_events'] = Event.objects.all()
-        context[
-            'show_month_week_day_control'
-        ] = getattr(settings, 'DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL', True)
+        context['show_month_week_day_control'] = getattr(
+            settings, 'DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL',
+            True
+        )
         context['nr_initially_shown'] = self.nr_initially_shown
         context['slice_2'] = f'{self.nr_initially_shown}:'
         context['corner_labels'] = self.corner_labels
