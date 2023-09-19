@@ -1,0 +1,21 @@
+[flake8]
+max-line-length = 120
+extend-ignore =
+    # closing bracket does not match visual indentation, caused by yapf
+    E124
+    # continuation line missing indentation or outdented
+    # doesn’t look wrong, formatted like this by yapf
+    E122
+    # E251 unexpected spaces around keyword / parameter equals, caused by yapf wrapping lines after “=”
+    E251
+
+per-file-ignores =
+    # E501 line too long
+    */migrations/*:  E501
+
+    # F403 e. g. 'from .base_settings import *' used; unable to detect undefined names
+    # F405 x may be undefined, or defined from star imports
+    phi/*settings*: F403, F405
+
+exclude =
+    local
