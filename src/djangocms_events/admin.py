@@ -1,7 +1,7 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin import ModelAdmin
 from django.utils.translation import gettext_lazy as _
-from django.contrib import messages
+
 from .models import Calendar, Event
 
 

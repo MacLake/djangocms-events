@@ -1,6 +1,6 @@
-from datetime import datetime, timezone, timedelta
-from typing import Any
 from collections.abc import Iterable
+from datetime import datetime, timedelta, timezone
+from typing import Any
 
 from cms.models import CMSPlugin
 from cms.plugin_base import CMSPluginBase
@@ -9,7 +9,7 @@ from django.conf import settings
 from django.db.models import QuerySet
 from django.utils.translation import gettext as _
 
-from .models import EventListPlugin, Event, CalendarPlugin
+from .models import CalendarPlugin, Event, EventListPlugin
 
 
 @plugin_pool.register_plugin

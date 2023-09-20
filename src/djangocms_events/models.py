@@ -95,11 +95,9 @@ class Event(models.Model):
     end = models.DateTimeField(null=True, blank=True, verbose_name=_('end'))
     # TODO: Check if django-timedeltafield is worth being installed:
     duration = models.CharField(
-        null=True, blank=True, max_length=64, verbose_name=_('duration')
+        blank=True, max_length=64, verbose_name=_('duration')
     )
-    uid = models.CharField(
-        null=True, blank=True, max_length=255, verbose_name=_('uid')
-    )
+    uid = models.CharField(blank=True, max_length=255, verbose_name=_('uid'))
     description = QuillField(blank=True, verbose_name=_('description'))
     created = models.DateTimeField(
         null=True, blank=True, verbose_name=_('created')
@@ -108,9 +106,9 @@ class Event(models.Model):
         null=True, blank=True, verbose_name=_('last_modified')
     )
     location = models.CharField(
-        null=True, blank=True, max_length=255, verbose_name=_('location')
+        blank=True, max_length=255, verbose_name=_('location')
     )
-    url = models.URLField(null=True, blank=True, verbose_name=_('url'))
+    url = models.URLField(blank=True, verbose_name=_('url'))
     transparent = models.BooleanField(
         null=True, blank=True, verbose_name=_('transparent')
     )
@@ -118,13 +116,13 @@ class Event(models.Model):
     # attendees (Optional[Iterable[Attendee]])
     # categories (Optional[Iterable[str]])
     status = models.CharField(
-        null=True, blank=True, max_length=64, verbose_name=_('status')
+        blank=True, max_length=64, verbose_name=_('status')
     )
     organizer = models.CharField(
-        null=True, blank=True, max_length=255, verbose_name=_('organizer')
+        blank=True, max_length=255, verbose_name=_('organizer')
     )
     classification = models.CharField(
-        null=True, blank=True, max_length=64, verbose_name=_('classification')
+        blank=True, max_length=64, verbose_name=_('classification')
     )
     picture = FilerImageField(
         null=True,
@@ -134,14 +132,14 @@ class Event(models.Model):
         on_delete=models.CASCADE
     )
 
-    def __str__(self) -> str:
-        return f'{self.begin} {self.name}'
-
     class Meta:
         verbose_name: str = _('event')
         verbose_name_plural: str = _('events')
         unique_together = ['calendar', 'uid']
         ordering: list[str] = ['-begin', '-end']
+
+    def __str__(self) -> str:
+        return f'{self.begin} {self.name}'
 
     @property
     def one_day(self) -> bool:

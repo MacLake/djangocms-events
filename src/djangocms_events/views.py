@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from arrow import Arrow
@@ -6,10 +6,10 @@ from django.conf import settings
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView, ListView
 from ics import Calendar as ICSCalendar
 
-from .models import Event, Calendar
+from .models import Calendar, Event
 
 
 def import_calendars(
