@@ -6,6 +6,7 @@ import requests
 from arrow import Arrow
 from cms.models import CMSPlugin
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_quill.fields import QuillField
 from filer.fields.image import FilerImageField
@@ -140,6 +141,9 @@ class Event(models.Model):
 
     def __str__(self) -> str:
         return f'{self.begin} {self.name}'
+
+    def get_absolute_url(self):
+        return reverse('djangocms_events:event_detail', kwargs={'pk': self.pk})
 
     @property
     def one_day(self) -> bool:
