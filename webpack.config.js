@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     entry: {
         index: './assets/src/index.js',
-        calendar:  './assets/src/calendar.js',
+        calendar: './assets/src/calendar.js',
     },
     module: {
         rules: [
@@ -17,6 +17,11 @@ module.exports = {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './src/djangocms_events/static/djangocms_events/webpack'),
         clean: true,
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
     },
     mode: 'production',
 };
