@@ -68,22 +68,22 @@ class Calendar(models.Model):
             description_json: str = json.dumps(
                 {
                     'delta': '',
-                    'html': ics_event.description
+                    'html': ics_event.description or ''
                 }
             )
-            event.name = ics_event.name
+            event.name = ics_event.name or ''
             event.begin = ics_event.begin.datetime
             event.end = ics_event.end.datetime
-            event.duration = ics_event.duration
+            event.duration = ics_event.duration or ''
             event.description = description_json
             event.created = ics_event.created.datetime
             event.last_modified = ics_event.last_modified.datetime
-            event.location = ics_event.location
-            event.url = ics_event.url
+            event.location = ics_event.location or ''
+            event.url = ics_event.url or ''
             event.transparent = ics_event.transparent
-            event.status = ics_event.status
-            event.organizer = ics_event.organizer
-            event.classification = ics_event.classification
+            event.status = ics_event.status or ''
+            event.organizer = ics_event.organizer or ''
+            event.classification = ics_event.classification or ''
             event.save()
 
 
