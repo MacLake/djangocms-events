@@ -22,7 +22,9 @@ def import_calendars(
     ics_calendars: list[ICSCalendar] = []
     calendar: Calendar
     for calendar in Calendar.objects.filter(publish=True).exclude(url=''):
-        calendar.import_ics(start_after_date=start_after_date)
+        ics_calendars.append(
+            calendar.import_ics(start_after_date=start_after_date)
+        )
 
     context: dict[str, Any] = {'calendars': ics_calendars}
     return render(request, 'djangocms_events/calendar_import.html', context)

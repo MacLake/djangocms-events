@@ -44,7 +44,7 @@ class Calendar(models.Model):
     def __str__(self):
         return self.name
 
-    def import_ics(self, start_after_date: Arrow = None) -> None:
+    def import_ics(self, start_after_date: Arrow = None) -> ICSCalendar:
         """
         Import a calendar with a URL of an ics file with the ics lib
         and then create Django Event objects
@@ -85,6 +85,8 @@ class Calendar(models.Model):
             event.organizer = ics_event.organizer or ''
             event.classification = ics_event.classification or ''
             event.save()
+
+        return ics_calendar
 
 
 class Event(models.Model):
