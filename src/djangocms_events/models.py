@@ -147,7 +147,8 @@ class Event(models.Model):
 
     @property
     def one_day(self) -> bool:
-        return self.begin.date() == self.end.date()
+        return self.begin.date() == self.end.date(
+        ) if self.begin and self.end else True
 
     def get_picture(self) -> Optional[FilerImageField]:
         return self.picture or self.calendar.default_picture
