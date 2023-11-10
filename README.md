@@ -75,7 +75,7 @@ DJANGOCMS_EVENTS_CORNER_LABELS: bool = True
 ```
 
 With `DJANGOCMS_EVENTS_SHOW_CALENDAR_MONTH_WEEK_DAY_CONTROL` you can choose if the control for
-switching between month, week and day view in the calendar is shwon or hidden. If it’s not set, it
+switching between month, week and day view in the calendar is shown or hidden. If it’s not set, it
 will be shown. `DJANGOCMS_EVENTS_PAGINATE_BY` sets the number of events per page in the events list
 and defaults to 100. With setting `DJANGOCMS_EVENTS_NR_INITIALLY_SHOWN` to a number that is smaller
 than the number of events per page, only this number of events will be shown on the overview, the
@@ -103,7 +103,7 @@ npm install
 npx webpack
 ```
 
-The second bundle `djangocms_events/static/djangocms_events/webpack/calendar.bundle.js is used for
+The second bundle `djangocms_events/static/djangocms_events/webpack/calendar.bundle.js` is used for
 the calendar view in the apphook page and the calendar plug-in.
 
 ## Usage
@@ -115,9 +115,9 @@ You can edit events in the Django admin or import an ICS file. In either case fi
 calendar in the admin. If you want to import an ICS file available in the Internet, enter its URL,
 otherwise leave this field empty. You can import events after having checked the “publish” field in
 the calendar by applying an admin action or by calling a URL for importing the events e.g. in a
-cron job. The URL for importing all events of all published calendars is the URL of your apphook
-page plus `import_calendars` or `import_calendars_future_events` for just importing events in the
-future.
+cron job or in a browser where you will get a table of the imported events. The URL for importing 
+all events of all published calendars is the URL of your apphook page plus `import_calendars` or 
+`import_calendars_future_events` for just importing events in the future.
 
 On the apphook page you can see a calendar and a list of the events. The default view shows only
 events of the current and future months in the calendar and future events in the list, because
