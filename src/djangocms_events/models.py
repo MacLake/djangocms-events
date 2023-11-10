@@ -72,12 +72,12 @@ class Calendar(models.Model):
                 }
             )
             event.name = ics_event.name or ''
-            event.begin = ics_event.begin.datetime
-            event.end = ics_event.end.datetime
+            event.begin = ics_event.begin.datetime if ics_event.begin else None
+            event.end = ics_event.end.datetime if ics_event.end else None
             event.duration = ics_event.duration or ''
             event.description = description_json
-            event.created = ics_event.created.datetime
-            event.last_modified = ics_event.last_modified.datetime
+            event.created = ics_event.created.datetime if ics_event.created else None
+            event.last_modified = ics_event.last_modified.datetime if ics_event.last_modified else None
             event.location = ics_event.location or ''
             event.url = ics_event.url or ''
             event.transparent = ics_event.transparent
