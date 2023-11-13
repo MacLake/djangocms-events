@@ -74,7 +74,7 @@ class Calendar(models.Model):
             event.name = ics_event.name or ''
             event.begin = ics_event.begin.datetime if ics_event.begin else None
             event.end = ics_event.end.datetime if ics_event.end else None
-            event.duration = ics_event.duration or ''
+            event.duration = ics_event.duration
             event.description = description_json
             event.created = ics_event.created.datetime if ics_event.created else None
             event.last_modified = ics_event.last_modified.datetime if ics_event.last_modified else None
@@ -96,9 +96,8 @@ class Event(models.Model):
     name = models.CharField(blank=True, max_length=255, verbose_name=_('name'))
     begin = models.DateTimeField(null=True, blank=True, verbose_name=_('begin'))
     end = models.DateTimeField(null=True, blank=True, verbose_name=_('end'))
-    # TODO: Check if django-timedeltafield is worth being installed:
-    duration = models.CharField(
-        blank=True, max_length=64, verbose_name=_('duration')
+    duration = models.DurationField(
+        null=True, blank=True, verbose_name=_('duration')
     )
     uid = models.CharField(blank=True, max_length=255, verbose_name=_('uid'))
     description = QuillField(blank=True, verbose_name=_('description'))
