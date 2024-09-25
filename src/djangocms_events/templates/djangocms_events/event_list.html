@@ -14,80 +14,81 @@
 <script src="{% static 'djangocms_events/webpack/calendar.bundle.js' %}"></script>
 {% endaddtoblock %}
 
-<h1 class="ui header">{% translate "Calendar" %} <span id="cal-date"></span></h1>
+<div class="ui container">
+    <h1 class="ui header">{% translate "Calendar" %} <span id="cal-date"></span></h1>
 
-<div>
-	<div class="ui primary icon buttons">
-		<button id="cal-prev" class="ui button"><i class="ui arrow left icon"></i></button>
-		<button id="cal-today" class="ui button"><i class="ui circle icon"></i></button>
-		<button id="cal-next" class="ui button"><i class="ui arrow right icon"></i></button>
-	</div>
-	{% if show_month_week_day_control %}
-	<div class="ui primary buttons">
-		<button id="cal-day" class="ui button">{% translate "Day" %}</button>
-		<button id="cal-week" class="ui button">{% translate "Week" %}</button>
-		<button id="cal-month" class="ui button">{% translate "Month" %}</button>
-	</div>
-	{% endif %}
+    <div>
+        <div class="ui primary icon buttons">
+            <button id="cal-prev" class="ui button"><i class="ui arrow left icon"></i></button>
+            <button id="cal-today" class="ui button"><i class="ui circle icon"></i></button>
+            <button id="cal-next" class="ui button"><i class="ui arrow right icon"></i></button>
+        </div>
+        {% if show_month_week_day_control %}
+        <div class="ui primary buttons">
+            <button id="cal-day" class="ui button">{% translate "Day" %}</button>
+            <button id="cal-week" class="ui button">{% translate "Week" %}</button>
+            <button id="cal-month" class="ui button">{% translate "Month" %}</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="calendar" style="height: 500px;"></div>
+
+    <div class="ui three item menu">
+        <a class="{% if set == 'past' %}active {% endif %}item"
+           href="{% url 'djangocms_events:past_event_list' %}">
+            {% translate "Past events" %}
+        </a>
+        <a class="{% if set == 'future' %}active {% endif %}item"
+           href="{% url 'djangocms_events:future_event_list' %}">
+            {% translate "Future events" %}
+        </a>
+        <a class="{% if set == 'all' %}active {% endif %}item" href="{% url 'djangocms_events:event_list' %}">
+            {% translate "All events" %}
+        </a>
+    </div>
+
+    <div class="ui divided items">
+        {% for event in event_list|slice:nr_initially_shown %}
+        {% include "./include/event_item.html" %}
+        {% endfor %}
+    </div>
+
+    {% if event_list.count > nr_initially_shown %}
+    <div class="ui accordion">
+        <div class="title">
+            <i class="dropdown icon"></i>
+            <button class="ui button">{% trans "Show more…" %}</button>
+        </div>
+        <div class="content">
+            <div class="ui divided items">
+                {% for event in event_list|slice:slice_2 %}
+                {% include "./include/event_item.html" %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="ui pagination menu">
+        {% if page_obj.has_previous %}
+        <a class="item" href="?page=1">&laquo; first</a>
+        <a class="item" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="active item">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a class="item" href="?page={{ page_obj.next_page_number }}">next</a>
+        <a class="item" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
+
+    <div class="ui modal" id="djangocms-event-detail"></div>
+
+    {% include "./include/calendar-js.html" %}
+    {% include "./include/event-list-js.html" %}
 </div>
-
-<div id="calendar" style="height: 500px;"></div>
-
-<div class="ui three item menu">
-	<a class="{% if set == 'past' %}active {% endif %}item"
-	   href="{% url 'djangocms_events:past_event_list' %}">
-		{% translate "Past events" %}
-	</a>
-	<a class="{% if set == 'future' %}active {% endif %}item"
-	   href="{% url 'djangocms_events:future_event_list' %}">
-		{% translate "Future events" %}
-	</a>
-	<a class="{% if set == 'all' %}active {% endif %}item" href="{% url 'djangocms_events:event_list' %}">
-		{% translate "All events" %}
-	</a>
-</div>
-
-<div class="ui divided items">
-	{% for event in event_list|slice:nr_initially_shown %}
-	{% include "./include/event_item.html" %}
-	{% endfor %}
-</div>
-
-{% if event_list.count > nr_initially_shown %}
-<div class="ui accordion">
-	<div class="title">
-		<i class="dropdown icon"></i>
-		<button class="ui button">{% trans "Show more…" %}</button>
-	</div>
-	<div class="content">
-		<div class="ui divided items">
-			{% for event in event_list|slice:slice_2 %}
-			{% include "./include/event_item.html" %}
-			{% endfor %}
-		</div>
-	</div>
-</div>
-{% endif %}
-
-<div class="ui pagination menu">
-	{% if page_obj.has_previous %}
-	<a class="item" href="?page=1">&laquo; first</a>
-	<a class="item" href="?page={{ page_obj.previous_page_number }}">previous</a>
-	{% endif %}
-	
-	<span class="active item">
-		Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-	</span>
-	
-	{% if page_obj.has_next %}
-	<a class="item" href="?page={{ page_obj.next_page_number }}">next</a>
-	<a class="item" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-	{% endif %}
-</div>
-
-<div class="ui modal" id="djangocms-event-detail"></div>
-
-{% include "./include/calendar-js.html" %}
-{% include "./include/event-list-js.html" %}
-
 {% endblock content %}
